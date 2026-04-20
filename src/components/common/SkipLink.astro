@@ -1,0 +1,26 @@
+---
+/**
+ * スキップリンク — キーボードユーザーがメインコンテンツへ直接ジャンプするためのリンク
+ */
+---
+
+<a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: -100%;
+    left: var(--space-sm);
+    z-index: 1000;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: bold;
+    border-radius: 0 0 4px 4px;
+    transition: top var(--transition-fast);
+  }
+
+  .skip-link:focus {
+    top: 0;
+  }
+</style>

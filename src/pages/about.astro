@@ -1,0 +1,255 @@
+---
+/**
+ * Aboutページ — KURO COFFEEのブランドストーリー・歴史・焙煎士の紹介
+ */
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/common/SectionHeading.astro';
+---
+
+<Layout title="About" description="KURO COFFEEの歩みと焙煎士をご紹介します。">
+  <section class="about-hero">
+    <div class="about-hero-inner">
+      <h1 class="about-title">About KURO COFFEE</h1>
+      <p class="about-lead">
+        一杯のコーヒーに込めた想いと、私たちの歩みをご紹介します。
+      </p>
+    </div>
+  </section>
+
+  <section class="history">
+    <div class="history-inner">
+      <SectionHeading title="History" subtitle="私たちの歩み" />
+      <ol class="timeline">
+        <li class="timeline-item">
+          <time datetime="2018" class="timeline-year">2018</time>
+          <div class="timeline-content">
+            <h3 class="timeline-title">創業</h3>
+            <p class="timeline-desc">
+              東京・蔵前の小さな一室で、KURO COFFEE は産声を上げました。
+              「日常に寄り添う、本当に美味しい一杯を」という想いから、すべてが始まりました。
+            </p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <time datetime="2020" class="timeline-year">2020</time>
+          <div class="timeline-content">
+            <h3 class="timeline-title">自家焙煎所オープン</h3>
+            <p class="timeline-desc">
+              品質への追求を深めるため、自家焙煎所を設立。
+              豆の仕入れから焙煎まで、すべての工程を自社で管理する体制を整えました。
+            </p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <time datetime="2022" class="timeline-year">2022</time>
+          <div class="timeline-content">
+            <h3 class="timeline-title">オンラインストア開設</h3>
+            <p class="timeline-desc">
+              全国のお客様にコーヒーをお届けするため、オンラインストアを開設。
+              焙煎したてのコーヒーを、ご自宅までお届けする仕組みを構築しました。
+            </p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <time datetime="2024" class="timeline-year">2024</time>
+          <div class="timeline-content">
+            <h3 class="timeline-title">直営店オープン</h3>
+            <p class="timeline-desc">
+              初の直営店を東京・目黒にオープン。
+              コーヒーの香りに包まれた空間で、特別なひとときを過ごしていただけます。
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="roaster">
+    <div class="roaster-inner">
+      <SectionHeading title="Roaster" subtitle="焙煎士" />
+      <div class="roaster-grid">
+        <div class="roaster-image">
+          <svg width="400" height="400" viewBox="0 0 400 400" aria-hidden="true" class="roaster-portrait">
+            <rect width="400" height="400" fill="var(--color-bg-sub)" rx="8"/>
+            <circle cx="200" cy="160" r="60" fill="none" stroke="var(--color-accent)" stroke-width="2"/>
+            <path d="M140 300 Q140 240 200 220 Q260 240 260 300" fill="none" stroke="var(--color-accent)" stroke-width="2"/>
+            <circle cx="185" cy="150" r="5" fill="var(--color-accent)" opacity="0.6"/>
+            <circle cx="215" cy="150" r="5" fill="var(--color-accent)" opacity="0.6"/>
+            <path d="M190 170 Q200 180 210 170" fill="none" stroke="var(--color-accent)" stroke-width="1.5" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="roaster-profile">
+          <h3 class="roaster-name">黒田 悠介</h3>
+          <p class="roaster-role">ヘッドロースター / 創業者</p>
+          <p class="roaster-bio">
+            大学卒業後、都内のスペシャルティコーヒー専門店で8年間修業。
+            産地への年間30回以上の訪問を通じて、農園との信頼関係を築いてきました。
+          </p>
+          <p class="roaster-bio">
+            2018年にKURO COFFEEを創業。「豆の声を聴く」をモットーに、
+            一つひとつの豆と向き合いながら、最適な焙煎プロファイルを探求し続けています。
+          </p>
+          <p class="roaster-bio">
+            Japan Roasting Championship 2023 準優勝。
+            SCA認定Qグレーダー資格保有。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initGSAP, staggerFadeIn, fadeInUp } from '../utils/animation';
+
+  /** AboutページのGSAPアニメーションを初期化する */
+  function initAbout(): void {
+    initGSAP();
+    staggerFadeIn('.timeline-item', { stagger: 0.2 });
+    fadeInUp('.roaster-grid');
+  }
+
+  initAbout();
+  document.addEventListener('astro:after-swap', initAbout);
+</script>
+
+<style>
+  .about-hero {
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-lg);
+    text-align: center;
+  }
+
+  .about-hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .about-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+  }
+
+  .about-lead {
+    margin-top: var(--space-sm);
+    color: var(--color-text-sub);
+    font-size: var(--font-size-lg);
+  }
+
+  .history {
+    padding: var(--space-section) var(--space-md);
+  }
+
+  .history-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: var(--space-lg);
+    counter-reset: none;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: var(--space-lg);
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--space-lg) + 10px);
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .timeline-year {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
+    color: var(--color-accent);
+    margin-bottom: var(--space-xs);
+  }
+
+  .timeline-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .timeline-desc {
+    color: var(--color-text-sub);
+    line-height: 1.8;
+  }
+
+  .roaster {
+    padding: var(--space-section) var(--space-md);
+    background: var(--color-bg-sub);
+  }
+
+  .roaster-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .roaster-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    align-items: center;
+  }
+
+  .roaster-image {
+    display: flex;
+    justify-content: center;
+  }
+
+  .roaster-portrait {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  .roaster-name {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .roaster-role {
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+    margin-bottom: var(--space-md);
+    letter-spacing: 0.05em;
+  }
+
+  .roaster-bio {
+    color: var(--color-text-sub);
+    line-height: 1.8;
+    margin-bottom: var(--space-sm);
+  }
+
+  @media (min-width: 769px) {
+    .roaster-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

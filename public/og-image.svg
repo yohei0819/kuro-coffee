@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1a1a1a"/>
+  <!-- コーヒーカップ -->
+  <ellipse cx="600" cy="360" rx="80" ry="25" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.4"/>
+  <path d="M520 340 Q520 420 600 420 Q680 420 680 340" fill="none" stroke="#c8a97e" stroke-width="2.5"/>
+  <path d="M680 350 Q720 340 715 310 Q710 280 685 295" fill="none" stroke="#c8a97e" stroke-width="2" opacity="0.6"/>
+  <!-- 蒸気 -->
+  <path d="M560 310 Q565 280 570 300 Q575 270 580 305" fill="none" stroke="#c8a97e" stroke-width="1.5" opacity="0.3"/>
+  <path d="M595 300 Q600 270 605 290 Q610 260 615 295" fill="none" stroke="#c8a97e" stroke-width="1.5" opacity="0.3"/>
+  <path d="M630 310 Q635 280 640 300 Q645 270 650 305" fill="none" stroke="#c8a97e" stroke-width="1.5" opacity="0.3"/>
+  <!-- テキスト -->
+  <text x="600" y="510" text-anchor="middle" fill="#c8a97e" font-family="'Playfair Display', serif" font-size="56" letter-spacing="0.1em">KURO COFFEE</text>
+  <text x="600" y="555" text-anchor="middle" fill="#b8b0a0" font-family="'Noto Sans JP', sans-serif" font-size="18" letter-spacing="0.2em">一杯の、深い時間。</text>
+</svg>

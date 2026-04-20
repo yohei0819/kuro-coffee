@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <rect width="800" height="800" fill="#2a2a2a" rx="12"/>
+  <!-- テーブル -->
+  <ellipse cx="400" cy="580" rx="200" ry="20" fill="#333333"/>
+  <!-- ソーサー -->
+  <ellipse cx="400" cy="520" rx="130" ry="18" fill="none" stroke="#c8a97e" stroke-width="1.5" opacity="0.5"/>
+  <!-- カップ本体 -->
+  <path d="M300 400 Q300 520 400 520 Q500 520 500 400" fill="#333333" stroke="#c8a97e" stroke-width="2.5"/>
+  <ellipse cx="400" cy="400" rx="100" ry="28" fill="#2a2a2a" stroke="#c8a97e" stroke-width="2.5"/>
+  <!-- カップ内側のコーヒー液面 -->
+  <ellipse cx="400" cy="410" rx="85" ry="22" fill="#c8a97e" opacity="0.15"/>
+  <!-- 取っ手 -->
+  <path d="M500 430 Q550 420 545 470 Q540 510 500 490" fill="none" stroke="#c8a97e" stroke-width="2.5"/>
+  <!-- 蒸気（3本） -->
+  <path d="M360 370 Q355 330 365 340 Q355 300 370 320 Q360 280 375 300" fill="none" stroke="#c8a97e" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>
+  <path d="M400 360 Q395 320 405 330 Q395 290 410 310 Q400 270 415 290" fill="none" stroke="#c8a97e" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
+  <path d="M440 370 Q435 330 445 340 Q435 300 450 320 Q440 280 455 300" fill="none" stroke="#c8a97e" stroke-width="1.5" opacity="0.25" stroke-linecap="round"/>
+  <!-- コーヒー豆（左下） -->
+  <g transform="translate(180, 550) rotate(-20)">
+    <ellipse rx="22" ry="14" fill="#c8a97e" opacity="0.3"/>
+    <path d="M0 -14 Q-5 0 0 14" fill="none" stroke="#2a2a2a" stroke-width="1.5"/>
+  </g>
+  <!-- コーヒー豆（右下） -->
+  <g transform="translate(600, 530) rotate(15)">
+    <ellipse rx="18" ry="11" fill="#c8a97e" opacity="0.25"/>
+    <path d="M0 -11 Q-4 0 0 11" fill="none" stroke="#2a2a2a" stroke-width="1.5"/>
+  </g>
+  <!-- 装飾リング -->
+  <circle cx="400" cy="400" r="250" fill="none" stroke="#c8a97e" stroke-width="0.5" opacity="0.15"/>
+</svg>

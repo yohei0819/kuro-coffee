@@ -1,0 +1,289 @@
+---
+/**
+ * Contactページ — お問い合わせフォーム（Formspree送信 / シミュレーション対応）
+ */
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/common/Button.astro';
+---
+
+<Layout title="Contact" description="KURO COFFEEへのお問い合わせはこちらから。">
+  <section class="contact-hero">
+    <div class="contact-hero-inner">
+      <h1 class="contact-title">Contact</h1>
+      <p class="contact-lead">
+        ご質問やご要望がございましたら、お気軽にお問い合わせください。
+      </p>
+    </div>
+  </section>
+
+  <section class="contact-form-section">
+    <div class="contact-form-inner">
+      <form id="contact-form" class="form" novalidate>
+        <div class="form-group">
+          <label for="name" class="form-label">お名前</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-input"
+            required
+            autocomplete="name"
+            aria-describedby="name-error"
+          />
+          <p id="name-error" class="form-error" aria-live="polite"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">メールアドレス</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            required
+            autocomplete="email"
+            aria-describedby="email-error"
+          />
+          <p id="email-error" class="form-error" aria-live="polite"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="message" class="form-label">メッセージ</label>
+          <textarea
+            id="message"
+            name="message"
+            class="form-textarea"
+            rows="6"
+            required
+            aria-describedby="message-error"
+          ></textarea>
+          <p id="message-error" class="form-error" aria-live="polite"></p>
+        </div>
+
+        <div class="form-action">
+          <Button variant="primary" size="lg" type="submit">
+            送信する
+          </Button>
+        </div>
+      </form>
+
+      <div id="form-success" class="form-result form-result--success" role="alert" hidden>
+        <p>お問い合わせありがとうございます。内容を確認のうえ、折り返しご連絡いたします。</p>
+      </div>
+
+      <div id="form-error-result" class="form-result form-result--error" role="alert" hidden>
+        <p>送信に失敗しました。時間をおいて再度お試しください。</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  /**
+   * フォーム送信処理の初期化
+   */
+  function initContactForm(): void {
+    const FORMSPREE_URL = 'https://formspree.io/f/xxxxx';
+    const isConfigured = !FORMSPREE_URL.includes('xxxxx');
+
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const successEl = document.getElementById('form-success');
+    const errorResultEl = document.getElementById('form-error-result');
+
+    if (!form || !successEl || !errorResultEl) return;
+
+    const nameInput = form.querySelector<HTMLInputElement>('#name');
+    const emailInput = form.querySelector<HTMLInputElement>('#email');
+    const messageInput = form.querySelector<HTMLTextAreaElement>('#message');
+    const nameError = document.getElementById('name-error');
+    const emailError = document.getElementById('email-error');
+    const messageError = document.getElementById('message-error');
+    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    if (!nameInput || !emailInput || !messageInput || !nameError || !emailError || !messageError || !submitBtn) return;
+
+    /** フィールドのバリデーションを実行する */
+    function validate(): boolean {
+      let isValid = true;
+
+      if (!nameInput!.value.trim()) {
+        nameError!.textContent = 'お名前を入力してください';
+        isValid = false;
+      } else {
+        nameError!.textContent = '';
+      }
+
+      if (!emailInput!.value.trim()) {
+        emailError!.textContent = 'メールアドレスを入力してください';
+        isValid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput!.value)) {
+        emailError!.textContent = '有効なメールアドレスを入力してください';
+        isValid = false;
+      } else {
+        emailError!.textContent = '';
+      }
+
+      if (!messageInput!.value.trim()) {
+        messageError!.textContent = 'メッセージを入力してください';
+        isValid = false;
+      } else {
+        messageError!.textContent = '';
+      }
+
+      return isValid;
+    }
+
+    form.addEventListener('submit', async (e: Event) => {
+      e.preventDefault();
+
+      if (!validate()) return;
+
+      // 送信中UI
+      form.setAttribute('aria-busy', 'true');
+      submitBtn!.disabled = true;
+      submitBtn!.textContent = '送信中...';
+      successEl!.hidden = true;
+      errorResultEl!.hidden = true;
+
+      try {
+        if (isConfigured) {
+          const res = await fetch(FORMSPREE_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              name: nameInput!.value,
+              email: emailInput!.value,
+              message: messageInput!.value,
+            }),
+          });
+
+          if (!res.ok) throw new Error('送信失敗');
+        } else {
+          console.log('フォーム送信シミュレーション:', {
+            name: nameInput!.value,
+            email: emailInput!.value,
+            message: messageInput!.value,
+          });
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+
+        // 成功
+        form.hidden = true;
+        successEl!.hidden = false;
+      } catch {
+        // 失敗
+        errorResultEl!.hidden = false;
+      } finally {
+        form.setAttribute('aria-busy', 'false');
+        submitBtn!.disabled = false;
+        submitBtn!.textContent = '送信する';
+      }
+    });
+  }
+
+  initContactForm();
+  document.addEventListener('astro:after-swap', initContactForm);
+</script>
+
+<style>
+  .contact-hero {
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-lg);
+    text-align: center;
+  }
+
+  .contact-hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .contact-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+  }
+
+  .contact-lead {
+    margin-top: var(--space-sm);
+    color: var(--color-text-sub);
+    font-size: var(--font-size-lg);
+  }
+
+  .contact-form-section {
+    padding: 0 var(--space-md) var(--space-section);
+  }
+
+  .contact-form-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .form-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: var(--space-sm);
+    background: var(--color-bg-sub);
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    border-color: var(--color-accent);
+  }
+
+  .form-textarea {
+    resize: vertical;
+  }
+
+  .form-error {
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    min-height: 1.2em;
+  }
+
+  .form-action {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-sm);
+  }
+
+  .form-result {
+    text-align: center;
+    padding: var(--space-lg);
+    border-radius: 4px;
+  }
+
+  .form-result--success {
+    background: var(--color-accent-bg);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+  }
+
+  .form-result--error {
+    background: var(--color-error-bg);
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+  }
+</style>

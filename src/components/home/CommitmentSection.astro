@@ -1,0 +1,92 @@
+---
+/**
+ * CommitmentSection — 豆・焙煎・抽出の3つのこだわりを紹介するセクション
+ */
+import { Image } from 'astro:assets';
+import SectionHeading from '../common/SectionHeading.astro';
+import beansIcon from '../../assets/commitment-beans.svg';
+import roastIcon from '../../assets/commitment-roast.svg';
+import brewIcon from '../../assets/commitment-brew.svg';
+---
+
+<section class="commitment">
+  <div class="commitment-inner">
+    <SectionHeading title="こだわり" subtitle="Three Pillars" />
+    <ul class="commitment-list">
+      <li class="commitment-item">
+        <Image src={beansIcon} alt="" width={120} height={120} />
+        <h3 class="commitment-title">厳選された豆</h3>
+        <p class="commitment-desc">世界各地の農園から直接仕入れた、最高品質のスペシャルティコーヒー豆のみを使用しています。</p>
+      </li>
+      <li class="commitment-item">
+        <Image src={roastIcon} alt="" width={120} height={120} />
+        <h3 class="commitment-title">丁寧な焙煎</h3>
+        <p class="commitment-desc">豆の個性を最大限に引き出す火加減を、熟練の焙煎士が一つひとつ見極めています。</p>
+      </li>
+      <li class="commitment-item">
+        <Image src={brewIcon} alt="" width={120} height={120} />
+        <h3 class="commitment-title">最適な抽出</h3>
+        <p class="commitment-desc">豆ごとに最適な温度と時間で抽出し、香りと味わいを余すことなくお届けします。</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { initGSAP, staggerFadeIn } from '../../utils/animation';
+
+  /** こだわりセクションのGSAPスタッガーアニメーションを初期化する */
+  function initCommitment(): void {
+    initGSAP();
+    staggerFadeIn('.commitment-item');
+  }
+
+  initCommitment();
+  document.addEventListener('astro:after-swap', initCommitment);
+</script>
+
+<style>
+  .commitment {
+    padding: var(--space-section) var(--space-md);
+  }
+
+  .commitment-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .commitment-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .commitment-item {
+    text-align: center;
+    padding: var(--space-md);
+  }
+
+  .commitment-item img {
+    margin: 0 auto var(--space-sm);
+    border-radius: 50%;
+  }
+
+  .commitment-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .commitment-desc {
+    color: var(--color-text-sub);
+    font-size: var(--font-size-sm);
+    line-height: 1.8;
+  }
+
+  @media (min-width: 769px) {
+    .commitment-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

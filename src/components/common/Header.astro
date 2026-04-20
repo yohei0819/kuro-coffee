@@ -1,0 +1,279 @@
+---
+/**
+ * Header — ロゴ・ナビゲーション・ハンバーガーメニューを含むサイトヘッダー
+ */
+import { navLinks } from '../../data/navigation';
+import { getBasePath } from '../../utils/path';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header" id="site-header">
+  <div class="header-inner">
+    <a class="logo" href={getBasePath('/')}>KURO COFFEE</a>
+
+    <nav class="nav-desktop" aria-label="メインナビゲーション">
+      <ul class="nav-list">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="nav-link"
+              aria-current={currentPath === link.href || currentPath === link.href + '/' ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <button
+      class="hamburger"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="メニューを開く"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+
+  <nav class="nav-mobile" id="mobile-menu" aria-label="メインナビゲーション" hidden>
+    <ul class="mobile-nav-list">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="mobile-nav-link"
+            aria-current={currentPath === link.href || currentPath === link.href + '/' ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  import { trapFocus, releaseFocus } from '../../utils/a11y';
+
+  /** ヘッダーのハンバーガーメニューとスクロール動作を初期化する */
+  function initHeader(): void {
+    const header = document.getElementById('site-header');
+    const hamburger = header?.querySelector<HTMLButtonElement>('.hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (!header || !hamburger || !mobileMenu) return;
+
+    /** メニューを開く */
+    function openMenu(): void {
+      hamburger!.setAttribute('aria-expanded', 'true');
+      hamburger!.setAttribute('aria-label', 'メニューを閉じる');
+      mobileMenu!.hidden = false;
+      trapFocus(mobileMenu!);
+    }
+
+    /** メニューを閉じる */
+    function closeMenu(): void {
+      hamburger!.setAttribute('aria-expanded', 'false');
+      hamburger!.setAttribute('aria-label', 'メニューを開く');
+      mobileMenu!.hidden = true;
+      releaseFocus();
+      hamburger!.focus();
+    }
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+
+    /** スクロール時にヘッダーにblur効果を追加する */
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+
+  initHeader();
+  document.addEventListener('astro:after-swap', initHeader);
+</script>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    z-index: 100;
+    transition: background var(--transition-normal), backdrop-filter var(--transition-normal);
+  }
+
+  .header.scrolled {
+    background: var(--color-bg-alpha);
+    backdrop-filter: blur(10px);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+    height: 100%;
+  }
+
+  .logo {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-desktop {
+    display: none;
+  }
+
+  .nav-list {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .nav-link {
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-accent);
+    transition: width var(--transition-normal);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after {
+    width: 100%;
+  }
+
+  .nav-link[aria-current="page"] {
+    color: var(--color-accent);
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: calc(var(--space-xs) * 0.625);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+    z-index: 101;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-text);
+    transition: transform var(--transition-normal), opacity var(--transition-normal);
+  }
+
+  .hamburger[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .nav-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background: var(--color-overlay);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+  }
+
+  .nav-mobile[hidden] {
+    display: none;
+  }
+
+  .mobile-nav-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .mobile-nav-link {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    color: var(--color-text);
+    letter-spacing: 0.1em;
+    transition: color var(--transition-fast);
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link[aria-current="page"] {
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 769px) {
+    .nav-desktop {
+      display: block;
+    }
+
+    .hamburger {
+      display: none;
+    }
+
+    .nav-mobile {
+      display: none;
+    }
+  }
+</style>

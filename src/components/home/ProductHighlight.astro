@@ -1,0 +1,102 @@
+---
+/**
+ * ProductHighlight — トップページ用の商品ハイライト（3カード表示）
+ */
+import { Image } from 'astro:assets';
+import SectionHeading from '../common/SectionHeading.astro';
+import { products } from '../../data/products';
+import { getBasePath } from '../../utils/path';
+
+import kuroBlend from '../../assets/products/kuro-blend.svg';
+import morningLight from '../../assets/products/morning-light.svg';
+import tsukiBlend from '../../assets/products/tsuki-blend.svg';
+
+const highlightProducts = products.slice(0, 3);
+const imageMap: Record<string, ImageMetadata> = {
+  'kuro-blend.svg': kuroBlend,
+  'morning-light.svg': morningLight,
+  'tsuki-blend.svg': tsukiBlend,
+};
+---
+
+<section class="product-highlight">
+  <div class="product-highlight-inner">
+    <SectionHeading title="Products" subtitle="こだわりの一杯" />
+    <ul class="product-list">
+      {highlightProducts.map((product) => (
+        <li class="product-item">
+          <a href={getBasePath('/products')} class="product-card">
+            <Image
+              src={imageMap[product.image]}
+              alt={`${product.name}のパッケージ`}
+              width={300}
+              height={400}
+              transition:name={`product-${product.id}`}
+            />
+            <h3 class="product-name">{product.name}</h3>
+            <p class="product-price">&yen;{product.price.toLocaleString()}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .product-highlight {
+    padding: var(--space-section) var(--space-md);
+    background: var(--color-bg-sub);
+  }
+
+  .product-highlight-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .product-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .product-item {
+    list-style: none;
+  }
+
+  .product-card {
+    display: block;
+    text-align: center;
+    padding: var(--space-md);
+    background: var(--color-bg);
+    border-radius: 4px;
+    transition: transform var(--transition-normal);
+  }
+
+  .product-card:hover {
+    transform: scale(1.05);
+  }
+
+  .product-card img {
+    margin: 0 auto var(--space-sm);
+    max-height: 250px;
+    object-fit: contain;
+  }
+
+  .product-name {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .product-price {
+    font-size: var(--font-size-base);
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 769px) {
+    .product-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

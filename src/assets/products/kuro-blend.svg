@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <rect width="600" height="800" fill="#2a2a2a" rx="12"/>
+  <!-- パッケージ袋 -->
+  <path d="M180 180 L180 620 Q180 650 210 650 L390 650 Q420 650 420 620 L420 180 Q420 160 400 155 L300 130 L200 155 Q180 160 180 180Z" fill="#333333" stroke="#c8a97e" stroke-width="1.5"/>
+  <!-- 袋の折り返し -->
+  <path d="M200 155 Q300 145 400 155 L400 180 Q300 170 200 180Z" fill="#c8a97e" opacity="0.1"/>
+  <!-- ロゴエリア -->
+  <circle cx="300" cy="380" r="100" fill="none" stroke="#c8a97e" stroke-width="1.5"/>
+  <circle cx="300" cy="380" r="85" fill="none" stroke="#c8a97e" stroke-width="0.5" opacity="0.4"/>
+  <!-- ブランド名 -->
+  <text x="300" y="365" text-anchor="middle" fill="#c8a97e" font-family="serif" font-size="32" font-weight="bold" letter-spacing="0.15em">KURO</text>
+  <text x="300" y="395" text-anchor="middle" fill="#c8a97e" font-family="serif" font-size="14" letter-spacing="0.2em">BLEND</text>
+  <!-- 豆イラスト -->
+  <g transform="translate(280, 430) rotate(-15)">
+    <ellipse rx="14" ry="9" fill="#c8a97e" opacity="0.4"/>
+    <path d="M0 -9 Q-3 0 0 9" fill="none" stroke="#333333" stroke-width="1"/>
+  </g>
+  <g transform="translate(320, 435) rotate(10)">
+    <ellipse rx="12" ry="8" fill="#c8a97e" opacity="0.35"/>
+    <path d="M0 -8 Q-3 0 0 8" fill="none" stroke="#333333" stroke-width="1"/>
+  </g>
+  <!-- 重量表記 -->
+  <text x="300" y="550" text-anchor="middle" fill="#c8a97e" font-family="sans-serif" font-size="12" opacity="0.5">200g</text>
+</svg>

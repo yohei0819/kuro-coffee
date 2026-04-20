@@ -1,0 +1,94 @@
+---
+/**
+ * StorySection — ブランドストーリーを2カラムで紹介するセクション
+ */
+import { Image } from 'astro:assets';
+import SectionHeading from '../common/SectionHeading.astro';
+import storyImage from '../../assets/story.svg';
+---
+
+<section class="story">
+  <div class="story-inner">
+    <SectionHeading title="Our Story" subtitle="私たちのこだわり" />
+    <div class="story-grid">
+      <div class="story-text">
+        <p>
+          KURO COFFEE は、一杯のコーヒーが生み出す「深い時間」を届けたいという想いから生まれました。
+          2018年、東京の小さな焙煎所からすべてが始まりました。
+        </p>
+        <p>
+          世界中の農園を巡り、丁寧に選び抜いた豆だけを使用。
+          焙煎士が豆の個性を最大限に引き出す火入れを、一つひとつ手作業で行っています。
+        </p>
+        <p>
+          私たちが目指すのは、日常に溶け込む特別な一杯。
+          コーヒーを通じて、あなただけの静かなひとときをお届けします。
+        </p>
+      </div>
+      <div class="story-image">
+        <Image src={storyImage} alt="コーヒーカップから立ち上る湯気のイラスト" width={800} height={800} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initGSAP, fadeInUp } from '../../utils/animation';
+
+  /** StoryセクションのGSAPアニメーションを初期化する */
+  function initStory(): void {
+    initGSAP();
+    fadeInUp('.story-text');
+    fadeInUp('.story-image', { delay: 0.2 });
+  }
+
+  initStory();
+  document.addEventListener('astro:after-swap', initStory);
+</script>
+
+<style>
+  .story {
+    padding: var(--space-section) var(--space-md);
+  }
+
+  .story-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    align-items: center;
+  }
+
+  .story-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .story-text p {
+    color: var(--color-text-sub);
+    line-height: 2;
+  }
+
+  .story-image {
+    display: flex;
+    justify-content: center;
+  }
+
+  .story-image img {
+    border-radius: 4px;
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (min-width: 769px) {
+    .story-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

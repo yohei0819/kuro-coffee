@@ -1,0 +1,71 @@
+.card {
+  background: var(--color-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform var(--transition-normal);
+  will-change: transform;
+  position: relative;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 4px;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    var(--color-gloss) 0%,
+    var(--color-gloss-transparent) 60%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.imageWrapper {
+  padding: var(--space-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-bg-sub);
+}
+
+.image {
+  max-height: 300px;
+  object-fit: contain;
+}
+
+.body {
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+}
+
+.name {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  margin-bottom: calc(var(--space-xs) / 4);
+}
+
+.nameEn {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-sub);
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-xs);
+}
+
+.price {
+  font-size: var(--font-size-base);
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-sub);
+  line-height: 1.8;
+}

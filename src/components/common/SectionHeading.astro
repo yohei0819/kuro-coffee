@@ -1,0 +1,52 @@
+---
+/**
+ * SectionHeading — セクション見出しとサブタイトルの共通コンポーネント
+ * @props title - メインタイトル
+ * @props subtitle - サブタイトル（任意）
+ * @props level - 見出しレベル 2 | 3（デフォルト: 2）
+ * @props align - テキスト配置 'left' | 'center'（デフォルト: 'center'）
+ */
+interface Props {
+  title: string;
+  subtitle?: string;
+  level?: 2 | 3;
+  align?: 'left' | 'center';
+}
+
+const { title, subtitle, level = 2, align = 'center' } = Astro.props;
+const Tag = `h${level}` as 'h2' | 'h3';
+---
+
+<div class:list={['section-heading', `section-heading--${align}`]}>
+  <Tag class="section-heading-title">{title}</Tag>
+  {subtitle && <p class="section-heading-subtitle">{subtitle}</p>}
+</div>
+
+<style>
+  .section-heading {
+    margin-bottom: var(--space-lg);
+  }
+
+  .section-heading--center {
+    text-align: center;
+  }
+
+  .section-heading--left {
+    text-align: left;
+  }
+
+  .section-heading-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
+    color: var(--color-text);
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+
+  .section-heading-subtitle {
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-base);
+    color: var(--color-text-sub);
+    letter-spacing: 0.02em;
+  }
+</style>

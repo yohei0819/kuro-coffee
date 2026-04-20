@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#2a2a2a" rx="100"/>
+  <!-- ドリッパー -->
+  <path d="M72 65 L100 130 L128 65" fill="none" stroke="#c8a97e" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="68" y1="65" x2="132" y2="65" stroke="#c8a97e" stroke-width="2"/>
+  <!-- フィルター内のライン -->
+  <line x1="82" y1="80" x2="118" y2="80" stroke="#c8a97e" stroke-width="1" opacity="0.3"/>
+  <line x1="87" y1="93" x2="113" y2="93" stroke="#c8a97e" stroke-width="1" opacity="0.25"/>
+  <!-- 滴 -->
+  <circle cx="100" cy="138" r="2.5" fill="#c8a97e" opacity="0.5"/>
+  <!-- サーバー -->
+  <path d="M78 145 Q78 165 100 165 Q122 165 122 145" fill="none" stroke="#c8a97e" stroke-width="2"/>
+  <ellipse cx="100" cy="145" rx="22" ry="5" fill="none" stroke="#c8a97e" stroke-width="1.5" opacity="0.5"/>
+  <!-- 蒸気 -->
+  <path d="M90 55 Q92 42 94 55" fill="none" stroke="#c8a97e" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+  <path d="M100 52 Q102 38 104 52" fill="none" stroke="#c8a97e" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+  <path d="M110 55 Q112 42 114 55" fill="none" stroke="#c8a97e" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+  <text x="100" y="188" text-anchor="middle" fill="#c8a97e" font-family="serif" font-size="13" letter-spacing="0.05em">BREW</text>
+</svg>

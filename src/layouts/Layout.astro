@@ -1,0 +1,53 @@
+---
+/**
+ * Layout — 全ページ共通のベースレイアウト
+ * @props title - ページタイトル
+ * @props description - ページのメタディスクリプション
+ */
+import '../styles/variables.css';
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import SkipLink from '../components/common/SkipLink.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import { getBasePath } from '../utils/path';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'KURO COFFEE — 一杯の、深い時間。こだわりの自家焙煎コーヒーをお届けします。' } = Astro.props;
+const pageTitle = title === 'Home' ? 'KURO COFFEE' : `${title} | KURO COFFEE`;
+const ogImage = getBasePath('/og-image.svg');
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href={getBasePath('/favicon.svg')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{pageTitle}</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <SkipLink />
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

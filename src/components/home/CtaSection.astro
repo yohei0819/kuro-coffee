@@ -1,0 +1,37 @@
+---
+/**
+ * CtaSection — 商品ページへ誘導するCTAセクション
+ */
+import SectionHeading from '../common/SectionHeading.astro';
+import Button from '../common/Button.astro';
+import { getBasePath } from '../../utils/path';
+---
+
+<section class="cta">
+  <div class="cta-inner">
+    <SectionHeading title="Find Your Cup" subtitle="あなたの一杯を見つける" />
+    <div class="cta-action">
+      <Button href={getBasePath('/products')} variant="primary" size="lg">
+        商品を見る
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding: var(--space-section) var(--space-md);
+    background: var(--color-bg-sub);
+  }
+
+  .cta-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .cta-action {
+    display: flex;
+    justify-content: center;
+  }
+</style>
