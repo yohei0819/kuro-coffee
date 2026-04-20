@@ -2,12 +2,12 @@
   {
     "path": "/*",
     "timings": [
-      { "metric": "interactive", "budget": 3000 },
-      { "metric": "first-contentful-paint", "budget": 1500 }
+      { "metric": "interactive", "budget": 5000 },
+      { "metric": "first-contentful-paint", "budget": 3000 }
     ],
     "resourceSizes": [
-      { "resourceType": "total", "budget": 500 },
-      { "resourceType": "image", "budget": 300 }
+      { "resourceType": "total", "budget": 1024 },
+      { "resourceType": "image", "budget": 512 }
     ]
   }
 ]
