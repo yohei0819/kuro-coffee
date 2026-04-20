@@ -106,28 +106,28 @@ import Button from '../components/common/Button.astro';
     function validate(): boolean {
       let isValid = true;
 
-      if (!nameInput!.value.trim()) {
-        nameError!.textContent = 'お名前を入力してください';
+      if (!nameInput.value.trim()) {
+        nameError.textContent = 'お名前を入力してください';
         isValid = false;
       } else {
-        nameError!.textContent = '';
+        nameError.textContent = '';
       }
 
-      if (!emailInput!.value.trim()) {
-        emailError!.textContent = 'メールアドレスを入力してください';
+      if (!emailInput.value.trim()) {
+        emailError.textContent = 'メールアドレスを入力してください';
         isValid = false;
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput!.value)) {
-        emailError!.textContent = '有効なメールアドレスを入力してください';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+        emailError.textContent = '有効なメールアドレスを入力してください';
         isValid = false;
       } else {
-        emailError!.textContent = '';
+        emailError.textContent = '';
       }
 
-      if (!messageInput!.value.trim()) {
-        messageError!.textContent = 'メッセージを入力してください';
+      if (!messageInput.value.trim()) {
+        messageError.textContent = 'メッセージを入力してください';
         isValid = false;
       } else {
-        messageError!.textContent = '';
+        messageError.textContent = '';
       }
 
       return isValid;
@@ -145,10 +145,10 @@ import Button from '../components/common/Button.astro';
 
       // 送信中UI
       form.setAttribute('aria-busy', 'true');
-      submitBtn!.disabled = true;
-      submitBtn!.textContent = '送信中...';
-      successEl!.hidden = true;
-      errorResultEl!.hidden = true;
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送信中...';
+      successEl.hidden = true;
+      errorResultEl.hidden = true;
 
       try {
         if (isConfigured) {
@@ -156,32 +156,32 @@ import Button from '../components/common/Button.astro';
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify({
-              name: nameInput!.value,
-              email: emailInput!.value,
-              message: messageInput!.value,
+              name: nameInput.value,
+              email: emailInput.value,
+              message: messageInput.value,
             }),
           });
 
           if (!res.ok) throw new Error('送信失敗');
         } else {
           console.log('フォーム送信シミュレーション:', {
-            name: nameInput!.value,
-            email: emailInput!.value,
-            message: messageInput!.value,
+            name: nameInput.value,
+            email: emailInput.value,
+            message: messageInput.value,
           });
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }
 
         // 成功
         form.hidden = true;
-        successEl!.hidden = false;
+        successEl.hidden = false;
       } catch {
         // 失敗
-        errorResultEl!.hidden = false;
+        errorResultEl.hidden = false;
       } finally {
         form.setAttribute('aria-busy', 'false');
-        submitBtn!.disabled = false;
-        submitBtn!.textContent = '送信する';
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送信する';
       }
     });
   }

@@ -1,18 +1,50 @@
 :root {
-  --color-bg: #1a1a1a; --color-bg-sub: #2a2a2a; --color-bg-elevated: #333333;
-  --color-text: #f5f0e8; --color-text-sub: #b8b0a0;
-  --color-accent: #c8a97e; --color-accent-hover: #d4b88e;
-  --color-border: #444444; --color-overlay: rgba(0,0,0,0.6);
-  --color-error: #e57373; --color-error-bg: rgba(229,115,115,0.1);
-  --color-bg-alpha: rgba(26,26,26,0.85); --color-accent-bg: rgba(200,169,126,0.1);
-  --color-gloss: rgba(255,255,255,0.12); --color-gloss-transparent: rgba(255,255,255,0);
-  --font-body: 'Noto Sans JP', sans-serif; --font-heading: 'Playfair Display', serif;
-  --font-size-sm: 0.875rem; --font-size-base: 1rem; --font-size-lg: 1.25rem;
-  --font-size-xl: 1.5rem; --font-size-2xl: 2rem; --font-size-3xl: 3rem;
+  /* ── Colors ── */
+  --color-bg: #1a1a1a;
+  --color-bg-sub: #2a2a2a;
+  --color-bg-elevated: #333333;
+  --color-text: #f5f0e8;
+  --color-text-sub: #b8b0a0;
+  --color-accent: #c8a97e;
+  --color-accent-hover: #d4b88e;
+  --color-border: #444444;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --color-error: #e57373;
+  --color-error-bg: rgba(229, 115, 115, 0.1);
+  --color-bg-alpha: rgba(26, 26, 26, 0.85);
+  --color-accent-bg: rgba(200, 169, 126, 0.1);
+  --color-gloss: rgba(255, 255, 255, 0.12);
+  --color-gloss-transparent: rgba(255, 255, 255, 0);
+
+  /* ── Typography ── */
+  --font-body: 'Noto Sans JP', sans-serif;
+  --font-heading: 'Playfair Display', serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 3rem;
   --font-size-hero: clamp(2.5rem, 8vw, 6rem);
-  --space-xs: 0.5rem; --space-sm: 1rem; --space-md: 2rem;
-  --space-lg: 4rem; --space-xl: 8rem; --space-section: clamp(4rem, 10vw, 8rem);
-  --max-width: 1200px; --header-height: 80px;
-  --transition-fast: 150ms ease; --transition-normal: 300ms ease; --transition-slow: 600ms ease;
-  --focus-ring: 2px solid var(--color-accent); --focus-ring-offset: 2px;
+
+  /* ── Spacing ── */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+  --space-section: clamp(4rem, 10vw, 8rem);
+
+  /* ── Layout ── */
+  --max-width: 1200px;
+  --header-height: 80px;
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 600ms ease;
+
+  /* ── Focus ── */
+  --focus-ring: 2px solid var(--color-accent);
+  --focus-ring-offset: 2px;
 }
