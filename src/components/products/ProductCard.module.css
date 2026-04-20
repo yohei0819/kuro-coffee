@@ -1,7 +1,6 @@
 .card {
   background: var(--color-bg);
   border-radius: 4px;
-  overflow: hidden;
   transition: transform var(--transition-normal);
   will-change: transform;
   position: relative;
@@ -11,15 +10,16 @@
   content: '';
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  border-radius: 4px;
   background: radial-gradient(
     circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    var(--color-gloss) 0%,
-    var(--color-gloss-transparent) 60%
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 60%
   );
+  pointer-events: none;
   opacity: 0;
   transition: opacity var(--transition-normal);
+  z-index: 2;
+  border-radius: inherit;
 }
 
 .card:hover::after {
@@ -68,4 +68,16 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-sub);
   line-height: 1.8;
+}
+
+.detailLink {
+  display: inline-block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  transition: color var(--transition-fast);
+}
+
+.detailLink:hover {
+  color: var(--color-accent-hover);
 }

@@ -16,6 +16,10 @@
 | スタイリング | Astro Scoped CSS + CSS Modules |
 | CI/CD | GitHub Actions → GitHub Pages |
 
+## Lighthouse スコア
+
+![Lighthouse Score](docs/lighthouse-score.png)
+
 ## 特徴
 
 - **Lighthouse 全カテゴリ 100 点** — Performance / Accessibility / Best Practices / SEO
@@ -35,7 +39,37 @@
 | `/` | Home | ヒーロー / ストーリー / こだわり / 注目商品 / CTA |
 | `/about` | About | ブランドの歴史とストーリー |
 | `/products` | Products | 全商品一覧 + カテゴリフィルター |
+| `/products/[id]` | Product Detail | 商品詳細（View Transitions 対応） |
 | `/contact` | Contact | お問い合わせフォーム（Formspree） |
+
+## アクセシビリティ対応
+
+| 項目 | 実装内容 |
+|---|---|
+| 言語属性 | `<html lang="ja">` |
+| スキップリンク | `#main-content` へのスキップナビゲーション |
+| ナビゲーション | `<nav aria-label="メインナビゲーション">` |
+| ハンバーガーメニュー | `aria-expanded` / `aria-controls` / `aria-label` 切替 / Escape 閉じ / フォーカストラップ |
+| 現在ページ | `aria-current="page"` で現在地を明示 |
+| フォーカス管理 | `:focus-visible` カスタムリング / `outline: none` 不使用 |
+| フォーム | `<label for>` ↔ `<input id>` 紐付け / `aria-describedby` + `aria-live="polite"` |
+| フィルター | `role="tablist"` + `role="tab"` + `aria-selected` + `aria-live="polite"` |
+| 画像 | 意味のある画像は説明的 `alt` / 装飾画像は `alt=""` |
+| Canvas | `aria-hidden="true"` |
+| reduced-motion | `prefers-reduced-motion: reduce` で全アニメーション停止・即表示 |
+| 見出し階層 | 各ページ `h1` は1つ / `h1→h2→h3` 順守 |
+
+## テスト
+
+| 種類 | ツール | 内容 |
+|---|---|---|
+| E2E | Playwright | ナビゲーション / 商品フィルター / お問い合わせフォーム / アクセシビリティ（28テスト） |
+| Lighthouse | Lighthouse CLI + Puppeteer | Performance / Accessibility / Best Practices / SEO 全カテゴリ 100 点 |
+
+```bash
+npm run test:e2e    # Playwright E2E テスト実行
+npm run lighthouse  # Lighthouse スコア取得 + スクリーンショット生成
+```
 
 ## プロジェクト構造
 

@@ -7,15 +7,15 @@ import SectionHeading from '../common/SectionHeading.astro';
 import { products } from '../../data/products';
 import { getBasePath } from '../../utils/path';
 
-import kuroBlend from '../../assets/products/kuro-blend.svg';
-import morningLight from '../../assets/products/morning-light.svg';
-import tsukiBlend from '../../assets/products/tsuki-blend.svg';
+import kuroBlend from '../../assets/products/kuro-blend.webp';
+import morningLight from '../../assets/products/morning-light.webp';
+import tsukiBlend from '../../assets/products/tsuki-blend.webp';
 
 const highlightProducts = products.slice(0, 3);
 const imageMap: Record<string, ImageMetadata> = {
-  'kuro-blend.svg': kuroBlend,
-  'morning-light.svg': morningLight,
-  'tsuki-blend.svg': tsukiBlend,
+  'kuro-blend.webp': kuroBlend,
+  'morning-light.webp': morningLight,
+  'tsuki-blend.webp': tsukiBlend,
 };
 ---
 
@@ -25,7 +25,7 @@ const imageMap: Record<string, ImageMetadata> = {
     <ul class="product-list">
       {highlightProducts.map((product) => (
         <li class="product-item">
-          <a href={getBasePath('/products')} class="product-card">
+          <a href={getBasePath('/products/' + product.id)} class="product-card">
             <Image
               src={imageMap[product.image]}
               alt={`${product.name}のパッケージ`}

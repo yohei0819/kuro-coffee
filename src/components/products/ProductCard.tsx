@@ -9,13 +9,14 @@ import styles from './ProductCard.module.css';
 interface ProductCardProps {
   product: Product;
   imageSrc: string;
+  detailHref?: string;
 }
 
 /**
  * 商品カードを表示するReactコンポーネント
  * @param props - 商品データと画像URL
  */
-export default function ProductCard({ product, imageSrc }: ProductCardProps) {
+export default function ProductCard({ product, imageSrc, detailHref }: ProductCardProps) {
   /** マウス移動時の3D傾斜エフェクト [R14] */
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (getReducedMotion()) return;
@@ -61,6 +62,9 @@ export default function ProductCard({ product, imageSrc }: ProductCardProps) {
         <p className={styles.nameEn}>{product.nameEn}</p>
         <p className={styles.price}>&yen;{product.price.toLocaleString()}</p>
         <p className={styles.description}>{product.description}</p>
+        {detailHref && (
+          <a href={detailHref} className={styles.detailLink}>詳細を見る →</a>
+        )}
       </div>
     </article>
   );

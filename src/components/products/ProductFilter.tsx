@@ -5,6 +5,7 @@ import { useState, useRef, useCallback } from 'react';
 import { products, categoryLabels } from '../../data/products';
 import type { ProductCategory } from '../../data/products';
 import ProductCard from './ProductCard';
+import { getBasePath } from '../../utils/path';
 import styles from './ProductFilter.module.css';
 
 /** ProductFilterのprops型 */
@@ -90,6 +91,7 @@ export default function ProductFilter({ imageMap }: ProductFilterProps) {
                 key={product.id}
                 product={product}
                 imageSrc={imageMap[product.image]}
+                detailHref={getBasePath('/products/' + product.id)}
               />
             ))}
           </div>

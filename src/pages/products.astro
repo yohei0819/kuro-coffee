@@ -1,24 +1,24 @@
 ---
 /**
- * Productsページ — 全商品SVGをimportし、ProductFilterに画像URLマップを渡す
+ * Productsページ — 全商品WebPをimportし、ProductFilterに画像URLマップを渡す
  */
 import Layout from '../layouts/Layout.astro';
 import ProductFilter from '../components/products/ProductFilter';
 
-import kuroBlend from '../assets/products/kuro-blend.svg';
-import morningLight from '../assets/products/morning-light.svg';
-import tsukiBlend from '../assets/products/tsuki-blend.svg';
-import colombiaHuila from '../assets/products/colombia-huila.svg';
-import yoruDecaf from '../assets/products/yoru-decaf.svg';
-import brazilSantos from '../assets/products/brazil-santos.svg';
+import kuroBlend from '../assets/products/kuro-blend.webp';
+import morningLight from '../assets/products/morning-light.webp';
+import tsukiBlend from '../assets/products/tsuki-blend.webp';
+import colombiaHuila from '../assets/products/colombia-huila.webp';
+import yoruDecaf from '../assets/products/yoru-decaf.webp';
+import brazilSantos from '../assets/products/brazil-santos.webp';
 
 const imageMap: Record<string, string> = {
-  'kuro-blend.svg': kuroBlend.src,
-  'morning-light.svg': morningLight.src,
-  'tsuki-blend.svg': tsukiBlend.src,
-  'colombia-huila.svg': colombiaHuila.src,
-  'yoru-decaf.svg': yoruDecaf.src,
-  'brazil-santos.svg': brazilSantos.src,
+  'kuro-blend.webp': kuroBlend.src,
+  'morning-light.webp': morningLight.src,
+  'tsuki-blend.webp': tsukiBlend.src,
+  'colombia-huila.webp': colombiaHuila.src,
+  'yoru-decaf.webp': yoruDecaf.src,
+  'brazil-santos.webp': brazilSantos.src,
 };
 ---
 

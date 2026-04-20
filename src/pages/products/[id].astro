@@ -1,0 +1,175 @@
+---
+/**
+ * 商品詳細ページ — 動的ルーティングで各商品の詳細を表示
+ */
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { products, categoryLabels } from '../../data/products';
+import { getBasePath } from '../../utils/path';
+import Button from '../../components/common/Button.astro';
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { id: p.id }, props: { product: p } }));
+}
+
+const { product } = Astro.props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/products/*.*',
+  { eager: true }
+);
+const imagePath = Object.keys(images).find((key) => key.includes(product.image));
+const imageData = imagePath ? images[imagePath].default : null;
+---
+
+<Layout title={product.name} description={`${product.name} — ${product.description}`}>
+  <section class="detail-hero">
+    <div class="detail-inner">
+      <div class="detail-image-col">
+        {imageData ? (
+          <Image
+            src={imageData}
+            alt={`${product.name}のパッケージ`}
+            width={600}
+            height={800}
+            class="detail-image"
+            transition:name={"product-" + product.id}
+          />
+        ) : (
+          <div class="detail-image-placeholder" transition:name={"product-" + product.id}>
+            <p>画像準備中</p>
+          </div>
+        )}
+      </div>
+      <div class="detail-text-col">
+        <p class="detail-category">{categoryLabels[product.category]}</p>
+        <h1 class="detail-name">{product.name}</h1>
+        <p class="detail-name-en">{product.nameEn}</p>
+        <p class="detail-price">&yen;{product.price.toLocaleString()}</p>
+        <p class="detail-description">{product.description}</p>
+
+        <h2 class="detail-sub-heading">味わいの特徴</h2>
+        <p class="detail-body">
+          {product.category === 'blend'
+            ? '複数の産地の豆を独自の比率でブレンドし、奥行きのある味わいに仕上げました。口に含んだ瞬間に広がる芳醇な香りと、余韻に残るほのかな甘みをお楽しみください。'
+            : product.category === 'single-origin'
+              ? '単一産地ならではのテロワールを存分に味わえる一杯です。豆本来の個性を引き出すため、焙煎度合いを丁寧に調整しています。'
+              : 'カフェインを気にせず、コーヒー本来の風味をお楽しみいただけます。夜のリラックスタイムや、体調を気遣う方にもおすすめです。'}
+        </p>
+
+        <h2 class="detail-sub-heading">おすすめの淹れ方</h2>
+        <p class="detail-body">
+          中挽きのペーパードリップがおすすめです。湯温は88〜92℃、蒸らし30秒の後、3回に分けてゆっくり注いでください。豆の個性が最も引き立つ抽出方法です。
+        </p>
+
+        <div class="detail-action">
+          <Button variant="outline" size="md" href={getBasePath('/products')}>
+            ← 商品一覧に戻る
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initGSAP, fadeInUp } from '../../utils/animation';
+
+  /** 商品詳細ページのGSAPアニメーションを初期化する */
+  function initDetail(): void {
+    initGSAP();
+    fadeInUp('.detail-text-col');
+  }
+  initDetail();
+  document.addEventListener('astro:after-swap', initDetail);
+</script>
+
+<style>
+  .detail-hero {
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-section);
+  }
+
+  .detail-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .detail-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  .detail-image-placeholder {
+    aspect-ratio: 3/4;
+    background: var(--color-bg-sub);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-sub);
+  }
+
+  .detail-category {
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .detail-name {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
+    color: var(--color-text);
+    margin-top: var(--space-xs);
+  }
+
+  .detail-name-en {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    color: var(--color-text-sub);
+    letter-spacing: 0.05em;
+    margin-top: var(--space-xs);
+  }
+
+  .detail-price {
+    font-size: var(--font-size-2xl);
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-top: var(--space-md);
+  }
+
+  .detail-description {
+    color: var(--color-text-sub);
+    line-height: 1.8;
+    margin-top: var(--space-md);
+  }
+
+  .detail-sub-heading {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-top: var(--space-lg);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .detail-body {
+    color: var(--color-text-sub);
+    line-height: 1.8;
+    margin-top: var(--space-sm);
+  }
+
+  .detail-action {
+    margin-top: var(--space-xl);
+  }
+
+  @media (max-width: 768px) {
+    .detail-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
