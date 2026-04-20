@@ -19,7 +19,7 @@ interface Props {
 
 const { title, description = 'KURO COFFEE — 一杯の、深い時間。こだわりの自家焙煎コーヒーをお届けします。' } = Astro.props;
 const pageTitle = title === 'Home' ? 'KURO COFFEE' : `${title} | KURO COFFEE`;
-const ogImage = new URL(getBasePath('/og-image.svg'), Astro.site).href;
+const ogImage = new URL(getBasePath('/og-image.png'), Astro.site).href;
 ---
 
 <!doctype html>
@@ -27,6 +27,7 @@ const ogImage = new URL(getBasePath('/og-image.svg'), Astro.site).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1a1a1a" />
     <meta name="description" content={description} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -52,6 +53,7 @@ const ogImage = new URL(getBasePath('/og-image.svg'), Astro.site).href;
         rel="stylesheet"
       />
     </noscript>
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
     <title>{pageTitle}</title>
     <ClientRouter />
   </head>

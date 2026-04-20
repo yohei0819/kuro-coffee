@@ -4,6 +4,8 @@
  */
 import Layout from '../layouts/Layout.astro';
 import SectionHeading from '../components/common/SectionHeading.astro';
+import { Image } from 'astro:assets';
+import roasterImage from '../assets/roaster.webp';
 ---
 
 <Layout title="About" description="KURO COFFEEの歩みと焙煎士をご紹介します。">
@@ -19,7 +21,7 @@ import SectionHeading from '../components/common/SectionHeading.astro';
   <section class="history">
     <div class="history-inner">
       <SectionHeading title="History" subtitle="私たちの歩み" />
-      <ol class="timeline">
+      <ol class="timeline" aria-label="KURO COFFEEの年表">
         <li class="timeline-item">
           <time datetime="2018" class="timeline-year">2018</time>
           <div class="timeline-content">
@@ -69,14 +71,13 @@ import SectionHeading from '../components/common/SectionHeading.astro';
       <SectionHeading title="Roaster" subtitle="焙煎士" />
       <div class="roaster-grid">
         <div class="roaster-image">
-          <svg width="400" height="400" viewBox="0 0 400 400" aria-hidden="true" class="roaster-portrait">
-            <rect width="400" height="400" fill="var(--color-bg-sub)" rx="8"/>
-            <circle cx="200" cy="160" r="60" fill="none" stroke="var(--color-accent)" stroke-width="2"/>
-            <path d="M140 300 Q140 240 200 220 Q260 240 260 300" fill="none" stroke="var(--color-accent)" stroke-width="2"/>
-            <circle cx="185" cy="150" r="5" fill="var(--color-accent)" opacity="0.6"/>
-            <circle cx="215" cy="150" r="5" fill="var(--color-accent)" opacity="0.6"/>
-            <path d="M190 170 Q200 180 210 170" fill="none" stroke="var(--color-accent)" stroke-width="1.5" opacity="0.6"/>
-          </svg>
+          <Image
+            src={roasterImage}
+            alt="ヘッドロースター 黒田悠介がコーヒー豆を選別している様子"
+            width={400}
+            height={400}
+            class="roaster-portrait"
+          />
         </div>
         <div class="roaster-profile">
           <h3 class="roaster-name">黒田 悠介</h3>
@@ -226,6 +227,7 @@ import SectionHeading from '../components/common/SectionHeading.astro';
     width: 100%;
     height: auto;
     border-radius: 4px;
+    object-fit: cover;
   }
 
   .roaster-name {

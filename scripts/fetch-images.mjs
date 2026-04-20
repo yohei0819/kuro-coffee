@@ -18,6 +18,8 @@ const images = [
   { name: 'yoru-decaf',     url: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',  dir: P },
   { name: 'brazil-santos',  url: 'https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=800&q=80',  dir: P },
   { name: 'story',          url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',  dir: A },
+  { name: 'roaster',        url: 'https://images.unsplash.com/photo-1522992319-0365e5f11656?w=800&q=80',   dir: A },
+  { name: 'og-image',       url: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1200&h=630&fit=crop&q=80', dir: 'public', format: 'png' },
 ];
 
 async function run() {
@@ -29,9 +31,19 @@ async function run() {
       const res = await fetch(img.url);
       if (!res.ok) { console.error(`❌ ${img.name}: HTTP ${res.status}`); ng++; continue; }
       const buf = Buffer.from(await res.arrayBuffer());
-      const size = img.dir === A ? { width: 800, height: 800 } : { width: 600, height: 800 };
-      await sharp(buf).resize(size.width, size.height, { fit: 'cover' }).webp({ quality: 80 }).toFile(`${img.dir}/${img.name}.webp`);
-      console.log(`✅ ${img.dir}/${img.name}.webp`);
+      const size = img.name === 'og-image'
+        ? { width: 1200, height: 630 }
+        : img.dir === A
+          ? { width: 800, height: 800 }
+          : { width: 600, height: 800 };
+      const fmt = img.format || 'webp';
+      const ext = fmt;
+      if (fmt === 'png') {
+        await sharp(buf).resize(size.width, size.height, { fit: 'cover' }).png({ quality: 80 }).toFile(`${img.dir}/${img.name}.png`);
+      } else {
+        await sharp(buf).resize(size.width, size.height, { fit: 'cover' }).webp({ quality: 80 }).toFile(`${img.dir}/${img.name}.webp`);
+      }
+      console.log(`✅ ${img.dir}/${img.name}.${ext}`);
       ok++;
     } catch (e) { console.error(`❌ ${img.name}: ${e instanceof Error ? e.message : e}`); ng++; }
   }

@@ -17,7 +17,9 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - run: npx playwright install chromium --with-deps
       - run: npm run build
+      - run: npm run test:e2e
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
@@ -40,4 +42,5 @@ jobs:
         with:
           urls: |
             https://yohei0819.github.io/kuro-coffee/
+          budgetPath: ./lighthouse-budget.json
           uploadArtifacts: true

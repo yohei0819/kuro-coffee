@@ -116,7 +116,7 @@ src/styles/               → variables.css + global.css
 src/data/                 → products.ts + navigation.ts
 src/types/                → index.ts
 src/utils/                → path.ts + animation.ts + a11y.ts + canvas.ts
-src/assets/               → SVG（products/ サブディレクトリ含む）
+src/assets/               → WebP 写真（products/ + story）+ SVG アイコン（commitment-*）
 public/                   → favicon.svg + og-image.svg
 ```
 </file-map>

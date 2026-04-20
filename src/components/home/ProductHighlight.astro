@@ -100,3 +100,17 @@ const imageMap: Record<string, ImageMetadata> = {
     }
   }
 </style>
+
+<script>
+  import { initGSAP, staggerFadeIn } from '../../utils/animation';
+
+  /** ProductHighlightのGSAPスタッガーアニメーションを初期化する */
+  function initProductHighlight(): void {
+    if (!document.querySelector('.product-item')) return;
+    initGSAP();
+    staggerFadeIn('.product-item');
+  }
+
+  initProductHighlight();
+  document.addEventListener('astro:after-swap', initProductHighlight);
+</script>

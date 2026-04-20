@@ -75,7 +75,7 @@ npm run lighthouse  # Lighthouse スコア取得 + スクリーンショット�
 
 ```
 src/
-├── assets/              # SVG 画像（ヒーロー / 商品 / こだわり）
+├── assets/              # WebP 写真（商品 / ストーリー）+ SVG アイコン（こだわり）
 ├── components/
 │   ├── common/          # Astro 共通コンポーネント（Header / Footer / Button）
 │   ├── home/            # Astro ホームセクション（Hero / Story / Commitment）

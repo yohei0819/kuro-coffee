@@ -49,18 +49,10 @@ const imageData = imagePath ? images[imagePath].default : null;
         <p class="detail-description">{product.description}</p>
 
         <h2 class="detail-sub-heading">味わいの特徴</h2>
-        <p class="detail-body">
-          {product.category === 'blend'
-            ? '複数の産地の豆を独自の比率でブレンドし、奥行きのある味わいに仕上げました。口に含んだ瞬間に広がる芳醇な香りと、余韻に残るほのかな甘みをお楽しみください。'
-            : product.category === 'single-origin'
-              ? '単一産地ならではのテロワールを存分に味わえる一杯です。豆本来の個性を引き出すため、焙煎度合いを丁寧に調整しています。'
-              : 'カフェインを気にせず、コーヒー本来の風味をお楽しみいただけます。夜のリラックスタイムや、体調を気遣う方にもおすすめです。'}
-        </p>
+        <p class="detail-body">{product.taste}</p>
 
-        <h2 class="detail-sub-heading">おすすめの淹れ方</h2>
-        <p class="detail-body">
-          中挽きのペーパードリップがおすすめです。湯温は88〜92℃、蒸らし30秒の後、3回に分けてゆっくり注いでください。豆の個性が最も引き立つ抽出方法です。
-        </p>
+        <h2 class="detail-sub-heading">おすすめの淫れ方</h2>
+        <p class="detail-body">{product.brewMethod}</p>
 
         <div class="detail-action">
           <Button variant="outline" size="md" href={getBasePath('/products')}>
