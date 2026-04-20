@@ -30,5 +30,5 @@
 
 ### パフォーマンス
 - [x] Lighthouse CI がデプロイ後に実行される
-- [ ] Lighthouse: Perf 90+ / A11y 100
-- [ ] axe: エラー 0件
+- [x] Lighthouse: Perf 100 / A11y 100
+- [x] axe: エラー 0件（全4ページ violations 0）
