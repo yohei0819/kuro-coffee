@@ -104,6 +104,7 @@ import SectionHeading from '../components/common/SectionHeading.astro';
 
   /** AboutページのGSAPアニメーションを初期化する */
   function initAbout(): void {
+    if (!document.querySelector('.timeline-item')) return;
     initGSAP();
     staggerFadeIn('.timeline-item', { stagger: 0.2 });
     fadeInUp('.roaster-grid');

@@ -6,7 +6,7 @@
  */
 import '../styles/variables.css';
 import '../styles/global.css';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import SkipLink from '../components/common/SkipLink.astro';
 import Header from '../components/common/Header.astro';
 import Footer from '../components/common/Footer.astro';
@@ -19,7 +19,7 @@ interface Props {
 
 const { title, description = 'KURO COFFEE — 一杯の、深い時間。こだわりの自家焙煎コーヒーをお届けします。' } = Astro.props;
 const pageTitle = title === 'Home' ? 'KURO COFFEE' : `${title} | KURO COFFEE`;
-const ogImage = getBasePath('/og-image.svg');
+const ogImage = new URL(getBasePath('/og-image.svg'), Astro.site).href;
 ---
 
 <!doctype html>
@@ -40,7 +40,7 @@ const ogImage = getBasePath('/og-image.svg');
       rel="stylesheet"
     />
     <title>{pageTitle}</title>
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <SkipLink />

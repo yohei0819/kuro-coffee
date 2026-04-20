@@ -136,7 +136,12 @@ import Button from '../components/common/Button.astro';
     form.addEventListener('submit', async (e: Event) => {
       e.preventDefault();
 
-      if (!validate()) return;
+      if (!validate()) {
+        const firstErrorField = form.querySelector<HTMLElement>('.form-error:not(:empty)');
+        const fieldId = firstErrorField?.id?.replace('-error', '');
+        if (fieldId) form.querySelector<HTMLElement>(`#${fieldId}`)?.focus();
+        return;
+      }
 
       // 送信中UI
       form.setAttribute('aria-busy', 'true');

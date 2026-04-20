@@ -37,6 +37,7 @@ import brewIcon from '../../assets/commitment-brew.svg';
 
   /** こだわりセクションのGSAPスタッガーアニメーションを初期化する */
   function initCommitment(): void {
+    if (!document.querySelector('.commitment-item')) return;
     initGSAP();
     staggerFadeIn('.commitment-item');
   }

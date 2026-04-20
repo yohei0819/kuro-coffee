@@ -61,8 +61,13 @@ const currentPath = Astro.url.pathname;
 <script>
   import { trapFocus, releaseFocus } from '../../utils/a11y';
 
+  /** 前回のクリーンアップ関数を保持する */
+  let cleanupHeader: (() => void) | null = null;
+
   /** ヘッダーのハンバーガーメニューとスクロール動作を初期化する */
   function initHeader(): void {
+    if (cleanupHeader) cleanupHeader();
+
     const header = document.getElementById('site-header');
     const hamburger = header?.querySelector<HTMLButtonElement>('.hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -95,15 +100,17 @@ const currentPath = Astro.url.pathname;
       }
     });
 
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
+    /** Escapeキーでメニューを閉じる */
+    const onKeyDown = (e: KeyboardEvent): void => {
       if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') {
         closeMenu();
       }
-    });
+    };
+    document.addEventListener('keydown', onKeyDown);
 
     /** スクロール時にヘッダーにblur効果を追加する */
     let ticking = false;
-    window.addEventListener('scroll', () => {
+    const onScroll = (): void => {
       if (!ticking) {
         requestAnimationFrame(() => {
           if (window.scrollY > 50) {
@@ -115,7 +122,15 @@ const currentPath = Astro.url.pathname;
         });
         ticking = true;
       }
-    });
+    };
+    window.addEventListener('scroll', onScroll);
+
+    /** リスナーを解除するクリーンアップ関数 */
+    cleanupHeader = () => {
+      document.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('scroll', onScroll);
+      cleanupHeader = null;
+    };
   }
 
   initHeader();

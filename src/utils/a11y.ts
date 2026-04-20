@@ -10,6 +10,8 @@ let trapHandler: ((e: KeyboardEvent) => void) | null = null;
  * @param container - フォーカスを閉じ込める対象のHTML要素
  */
 export function trapFocus(container: HTMLElement): void {
+  releaseFocus();
+
   const focusableSelectors =
     'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 

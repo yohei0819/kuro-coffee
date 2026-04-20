@@ -9,17 +9,17 @@
   <div class="hero-content">
     <h1 class="hero-title">KURO COFFEE</h1>
     <p class="hero-tagline">一杯の、深い時間。</p>
-    <div class="scroll-arrow" aria-hidden="true">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
+  </div>
+  <div class="scroll-arrow" aria-hidden="true">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </div>
 </section>
 
 <script>
   import { initSteamParticles } from '../../utils/canvas';
-  import { initGSAP, splitTextAnimation, fadeInUp } from '../../utils/animation';
+  import { initGSAP, splitTextAnimation, fadeInUp, killAllScrollTriggers } from '../../utils/animation';
 
   /** HeroセクションのCanvasパーティクルとGSAPアニメーションを初期化する */
   function initHero(): void {
@@ -29,7 +29,10 @@
     const controller = initSteamParticles(canvas);
     controller.start();
 
-    document.addEventListener('astro:before-swap', () => controller.stop(), { once: true });
+    document.addEventListener('astro:before-swap', () => {
+      controller.stop();
+      killAllScrollTriggers();
+    }, { once: true });
 
     initGSAP();
     splitTextAnimation('.hero-title');
@@ -86,6 +89,7 @@
     left: 50%;
     transform: translateX(-50%);
     color: var(--color-text-sub);
+    z-index: 1;
     animation: float 2s ease-in-out infinite;
   }
 

@@ -66,8 +66,10 @@ export default function ProductFilter({ imageMap }: ProductFilterProps) {
           {categories.map((cat) => (
             <button
               key={cat}
+              id={`tab-${cat}`}
               role="tab"
               aria-selected={activeCategory === cat}
+              aria-controls="product-tabpanel"
               className={`${styles.tab} ${activeCategory === cat ? styles.tabActive : ''}`}
               onClick={() => setActiveCategory(cat)}
               tabIndex={activeCategory === cat ? 0 : -1}
@@ -77,7 +79,7 @@ export default function ProductFilter({ imageMap }: ProductFilterProps) {
           ))}
         </div>
 
-        <div role="tabpanel" aria-live="polite">
+        <div id="product-tabpanel" role="tabpanel" aria-labelledby={`tab-${activeCategory}`} aria-live="polite">
           <h2 className={styles.srOnly}>商品一覧</h2>
           <p className={styles.srOnly}>
             {filteredProducts.length}件の商品が表示されています

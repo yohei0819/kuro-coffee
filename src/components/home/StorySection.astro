@@ -37,6 +37,7 @@ import storyImage from '../../assets/story.svg';
 
   /** StoryセクションのGSAPアニメーションを初期化する */
   function initStory(): void {
+    if (!document.querySelector('.story-text')) return;
     initGSAP();
     fadeInUp('.story-text');
     fadeInUp('.story-image', { delay: 0.2 });

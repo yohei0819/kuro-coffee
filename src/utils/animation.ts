@@ -13,6 +13,13 @@ export function initGSAP(): void {
 }
 
 /**
+ * 全ScrollTriggerインスタンスを破棄する（ページ遷移時のクリーンアップ用）
+ */
+export function killAllScrollTriggers(): void {
+  ScrollTrigger.getAll().forEach((st) => st.kill());
+}
+
+/**
  * 要素をフェードイン＋上方向スライドでアニメーションする
  * @param el - 対象要素またはセレクタ
  * @param opts - オプション（delay）
