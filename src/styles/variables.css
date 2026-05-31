@@ -1,5 +1,7 @@
 :root {
-  /* ── Colors ── */
+  color-scheme: dark;
+
+  /* ── Colors（ダーク：デフォルト） ── */
   --color-bg: #1a1a1a;
   --color-bg-sub: #2a2a2a;
   --color-bg-elevated: #333333;
@@ -47,4 +49,25 @@
   /* ── Focus ── */
   --focus-ring: 2px solid var(--color-accent);
   --focus-ring-offset: 2px;
+}
+
+/* ── Colors（ライト） ── */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg: #f6f1e8;
+  --color-bg-sub: #ece3d5;
+  --color-bg-elevated: #ffffff;
+  --color-text: #2a2018;
+  --color-text-sub: #6b5d4d;
+  --color-accent: #7a5d30;
+  --color-accent-hover: #5f4824;
+  --color-border: #d8ccb8;
+  --color-overlay: rgba(40, 30, 20, 0.45);
+  --color-error: #c0392b;
+  --color-error-bg: rgba(192, 57, 43, 0.08);
+  --color-bg-alpha: rgba(246, 241, 232, 0.85);
+  --color-accent-bg: rgba(122, 93, 48, 0.1);
+  --color-gloss: rgba(0, 0, 0, 0.06);
+  --color-gloss-transparent: rgba(0, 0, 0, 0);
 }

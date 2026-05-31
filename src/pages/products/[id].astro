@@ -41,7 +41,7 @@ const productJsonLd = {
 };
 ---
 
-<Layout title={product.name} description={`${product.name} — ${product.description}`}>
+<Layout title={product.name} description={`${product.name} — ${product.description}`} image={imageData ? imageData.src : undefined}>
   <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
   <section class="detail-hero">
     <div class="detail-inner">

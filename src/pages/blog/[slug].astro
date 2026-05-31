@@ -35,7 +35,7 @@ const articleJsonLd = {
 };
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
+<Layout title={post.data.title} description={post.data.description} ogType="article" publishedTime={post.data.pubDate.toISOString()}>
   <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   <article class="article">
     <div class="article-inner">

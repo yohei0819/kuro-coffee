@@ -17,18 +17,41 @@ import { getLangFromUrl } from '../i18n/ui';
 interface Props {
   title: string;
   description?: string;
+  /** OG/Twitter カードに使う画像URL（省略時はサイト共通画像） */
+  image?: string;
+  /** OGタイプ（記事ページは 'article'） */
+  ogType?: 'website' | 'article';
+  /** 記事の公開日時（ISO8601、article:published_time 用） */
+  publishedTime?: string;
 }
 
-const { title, description = 'KURO COFFEE — 一杯の、深い時間。こだわりの自家焙煎コーヒーをお届けします。' } = Astro.props;
+const {
+  title,
+  description = 'KURO COFFEE — 一杯の、深い時間。こだわりの自家焙煎コーヒーをお届けします。',
+  image,
+  ogType = 'website',
+  publishedTime,
+} = Astro.props;
 const pageTitle = title === 'Home' ? 'KURO COFFEE' : `${title} | KURO COFFEE`;
-const ogImage = new URL(getBasePath('/og-image.png'), Astro.site).href;
+const ogImage = image
+  ? new URL(image, Astro.site).href
+  : new URL(getBasePath('/og-image.png'), Astro.site).href;
 
 /** 現在のロケール */
 const lang = getLangFromUrl(Astro.url);
 
+/** OG/Twitter 用のロケール表記 */
+const ogLocale = lang === 'en' ? 'en_US' : 'ja_JP';
+const ogLocaleAlt = lang === 'en' ? 'ja_JP' : 'en_US';
+
+/** 正規URL（og:url で使用） */
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+
+/** 現在ロケールのRSSフィードURL */
+const rssHref = getBasePath(lang === 'en' ? '/en/rss.xml' : '/rss.xml');
+
 /** ロケールを除いたパス（hreflang の代替リンク生成用） */
-const pathWithoutLocale = Astro.url.pathname.replace(getBasePath('/en'), getBasePath('/')).replace(/\/{2,}/g, '/');
-const jaHref = new URL(pathWithoutLocale, Astro.site).href;
+const pathWithoutLocale = Astro.url.pathname.replace(getBasePath('/en'), getBasePath('/')).replace(/\/{2,}/g, '/');const jaHref = new URL(pathWithoutLocale, Astro.site).href;
 const enHref = new URL(
   getBasePath('/en' + pathWithoutLocale.replace(getBasePath('/'), '/')).replace(/\/{2,}/g, '/'),
   Astro.site
@@ -67,11 +90,41 @@ const siteJsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1a1a1a" />
+    <script is:inline>
+      (function () {
+        function applyTheme() {
+          var theme;
+          try {
+            theme = localStorage.getItem('theme');
+          } catch (e) {}
+          if (theme !== 'light' && theme !== 'dark') {
+            theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', theme);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f6f1e8' : '#1a1a1a');
+        }
+        applyTheme();
+        document.addEventListener('astro:after-swap', applyTheme);
+      })();
+    </script>
     <meta name="description" content={description} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image:alt" content={pageTitle} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="KURO COFFEE" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
+    {ogType === 'article' && publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/svg+xml" href={getBasePath('/favicon.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -92,10 +145,11 @@ const siteJsonLd = {
         rel="stylesheet"
       />
     </noscript>
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="ja" href={jaHref} />
     <link rel="alternate" hreflang="en" href={enHref} />
     <link rel="alternate" hreflang="x-default" href={jaHref} />
+    <link rel="alternate" type="application/rss+xml" title="KURO COFFEE Journal" href={rssHref} />
     <title>{pageTitle}</title>
     <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />
     <ClientRouter />
