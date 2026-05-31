@@ -1,0 +1,245 @@
+---
+/**
+ * Accessページ — 店舗情報・営業時間・アクセス（地図）
+ */
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/common/SectionHeading.astro';
+import Button from '../components/common/Button.astro';
+import { getBasePath } from '../utils/path';
+import { store } from '../data/store';
+
+/** OpenStreetMap 埋め込み用のバウンディングボックス（緯度経度の周辺範囲） */
+const delta = 0.006;
+const bbox = [
+  store.longitude - delta,
+  store.latitude - delta / 2,
+  store.longitude + delta,
+  store.latitude + delta / 2,
+].join('%2C');
+const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${store.latitude}%2C${store.longitude}`;
+const mapLink = `https://www.openstreetmap.org/?mlat=${store.latitude}&mlon=${store.longitude}#map=17/${store.latitude}/${store.longitude}`;
+---
+
+<Layout title="Access" description={`${store.name}の店舗情報・営業時間・アクセス案内です。`}>
+  <section class="access-hero">
+    <div class="access-hero-inner">
+      <h1 class="access-title">Access</h1>
+      <p class="access-lead">
+        {store.name}へのアクセス・営業時間のご案内です。
+      </p>
+    </div>
+  </section>
+
+  <section class="access-main">
+    <div class="access-inner">
+      <div class="access-info">
+        <SectionHeading title="Store Info" subtitle="店舗情報" align="left" />
+
+        <dl class="info-list">
+          <div class="info-row">
+            <dt class="info-term">店名</dt>
+            <dd class="info-desc">{store.name}</dd>
+          </div>
+          <div class="info-row">
+            <dt class="info-term">住所</dt>
+            <dd class="info-desc">〒{store.postalCode}<br />{store.addressLine}</dd>
+          </div>
+          <div class="info-row">
+            <dt class="info-term">電話</dt>
+            <dd class="info-desc">
+              <a href={`tel:${store.tel.replace(/-/g, '')}`} class="info-link">{store.tel}</a>
+            </dd>
+          </div>
+          <div class="info-row">
+            <dt class="info-term">営業時間</dt>
+            <dd class="info-desc">
+              <ul class="hours-list">
+                {store.openingHours.map((o) => (
+                  <li>{o.days} {o.hours}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+          <div class="info-row">
+            <dt class="info-term">定休日</dt>
+            <dd class="info-desc">{store.closedDays}</dd>
+          </div>
+          <div class="info-row">
+            <dt class="info-term">アクセス</dt>
+            <dd class="info-desc">
+              <ul class="access-points">
+                {store.access.map((a) => (
+                  <li>{a}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        </dl>
+
+        <div class="access-action">
+          <Button variant="primary" size="md" href={getBasePath('/contact')}>
+            お問い合わせはこちら
+          </Button>
+        </div>
+      </div>
+
+      <div class="access-map">
+        <SectionHeading title="Map" subtitle="地図" align="left" />
+        <div class="map-frame">
+          <iframe
+            title={`${store.name}の地図`}
+            src={mapSrc}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <a href={mapLink} class="map-external" target="_blank" rel="noopener noreferrer">
+          大きな地図で見る（OpenStreetMap）→
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initGSAP, fadeInUp } from '../utils/animation';
+
+  /** AccessページのGSAPアニメーションを初期化する */
+  function initAccess(): void {
+    if (!document.querySelector('.access-info')) return;
+    initGSAP();
+    fadeInUp('.access-info');
+    fadeInUp('.access-map', { delay: 0.15 });
+  }
+
+  initAccess();
+  document.addEventListener('astro:after-swap', initAccess);
+</script>
+
+<style>
+  .access-hero {
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-lg);
+    text-align: center;
+  }
+
+  .access-hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .access-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-xs);
+  }
+
+  .access-lead {
+    color: var(--color-text-sub);
+    font-size: var(--font-size-lg);
+  }
+
+  .access-main {
+    padding: 0 var(--space-md) var(--space-section);
+  }
+
+  .access-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .info-list {
+    margin: 0;
+  }
+
+  .info-row {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .info-term {
+    color: var(--color-accent);
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.05em;
+  }
+
+  .info-desc {
+    margin: 0;
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .info-link {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .info-link:hover {
+    color: var(--color-accent);
+  }
+
+  .hours-list,
+  .access-points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .access-points li {
+    position: relative;
+    padding-left: var(--space-sm);
+  }
+
+  .access-points li::before {
+    content: '・';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+
+  .access-action {
+    margin-top: var(--space-md);
+  }
+
+  .map-frame {
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: grayscale(0.3);
+  }
+
+  .map-external {
+    display: inline-block;
+    margin-top: var(--space-sm);
+    color: var(--color-accent);
+    font-size: var(--font-size-sm);
+  }
+
+  .map-external:hover {
+    color: var(--color-accent-hover);
+  }
+
+  @media (max-width: 768px) {
+    .access-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>

@@ -2,19 +2,26 @@
 /**
  * Header — ロゴ・ナビゲーション・ハンバーガーメニューを含むサイトヘッダー
  */
-import { navLinks } from '../../data/navigation';
-import { getBasePath } from '../../utils/path';
+import { getLangFromUrl, useTranslations, localizedPath, languages } from '../../i18n/ui';
+import { getNavLinks } from '../../data/navigation';
 
 const currentPath = Astro.url.pathname;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+/** 現在ロケール向けのナビゲーションリンク */
+const links = getNavLinks(lang);
+/** 切り替え先のロケールとそのホームURL */
+const otherLang = lang === 'ja' ? 'en' : 'ja';
+const otherHome = localizedPath('/', otherLang);
 ---
 
 <header class="header" id="site-header">
   <div class="header-inner">
-    <a class="logo" href={getBasePath('/')}>KURO COFFEE</a>
+    <a class="logo" href={localizedPath('/', lang)}>KURO COFFEE</a>
 
     <nav class="nav-desktop" aria-label="メインナビゲーション">
       <ul class="nav-list">
-        {navLinks.map((link) => (
+        {links.map((link) => (
           <li>
             <a
               href={link.href}
@@ -25,6 +32,11 @@ const currentPath = Astro.url.pathname;
             </a>
           </li>
         ))}
+        <li>
+          <a href={otherHome} class="nav-link lang-switch" lang={otherLang} aria-label={t('lang.switch')}>
+            {otherLang === 'en' ? 'EN' : 'JA'}
+          </a>
+        </li>
       </ul>
     </nav>
 
@@ -43,7 +55,7 @@ const currentPath = Astro.url.pathname;
 
   <nav class="nav-mobile" id="mobile-menu" aria-label="メインナビゲーション" hidden>
     <ul class="mobile-nav-list">
-      {navLinks.map((link) => (
+      {links.map((link) => (
         <li>
           <a
             href={link.href}
@@ -54,6 +66,11 @@ const currentPath = Astro.url.pathname;
           </a>
         </li>
       ))}
+      <li>
+        <a href={otherHome} class="mobile-nav-link" lang={otherLang} aria-label={t('lang.switch')}>
+          {languages[otherLang]}
+        </a>
+      </li>
     </ul>
   </nav>
 </header>

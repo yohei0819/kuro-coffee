@@ -38,4 +38,25 @@ test.describe('Products', () => {
       await expect(page.locator('h1')).toBeVisible();
     }
   });
+
+  test('キーワード検索で商品が絞り込まれる', async ({ page }) => {
+    const allCount = await page.locator('article').count();
+    await page.getByPlaceholder('名前・味わいで探す').fill('デカフェ');
+    await expect(page.locator('article')).toHaveCount(1);
+    expect(allCount).toBeGreaterThan(1);
+  });
+
+  test('該当なしの検索で空状態メッセージが表示される', async ({ page }) => {
+    await page.getByPlaceholder('名前・味わいで探す').fill('zzzznomatch');
+    await expect(page.locator('article')).toHaveCount(0);
+    await expect(page.getByText('該当する商品が見つかりませんでした', { exact: false })).toBeVisible();
+  });
+
+  test('価格が安い順に並び替えできる', async ({ page }) => {
+    await page.locator('select').selectOption('price-asc');
+    const prices = await page.locator('article p:has-text("¥")').allTextContents();
+    const numbers = prices.map((p) => Number(p.replace(/[^0-9]/g, '')));
+    const sorted = [...numbers].sort((a, b) => a - b);
+    expect(numbers).toEqual(sorted);
+  });
 });

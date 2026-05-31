@@ -22,6 +22,15 @@ export const categoryLabels: Record<ProductCategory | 'all', string> = {
   decaf: 'デカフェ',
 };
 
+/**
+ * 価格を「¥1,200」形式の文字列にフォーマットする
+ * @param price - 税込価格（円）
+ * @returns ロケール区切りを含む価格文字列
+ */
+export function formatPrice(price: number): string {
+  return `¥${price.toLocaleString('ja-JP')}`;
+}
+
 /** 商品一覧データ */
 export const products: Product[] = [
   {

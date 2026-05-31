@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const pages = ['./', './about', './products', './contact'];
+const pages = ['./', './about', './products', './contact', './blog', './access', './en/'];
 
 test.describe('アクセシビリティ', () => {
   for (const path of pages) {

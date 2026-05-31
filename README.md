@@ -97,6 +97,19 @@ npm run build     # 本番ビルド
 npm run preview   # ビルド結果プレビュー
 ```
 
+### お問い合わせフォーム（Formspree）の設定
+
+`/contact` のフォームは環境変数 `PUBLIC_FORMSPREE_URL` で送信先を切り替えます。
+
+1. [Formspree](https://formspree.io) でフォームを作成し、エンドポイントURLを取得する
+2. プロジェクト直下に `.env` を作成し、以下を設定する（`.env.example` を参照）
+
+```bash
+PUBLIC_FORMSPREE_URL=https://formspree.io/f/あなたのID
+```
+
+未設定（または `xxxxx` を含む）の場合は、実送信せずにシミュレーションモードで動作します。
+
 ## デプロイ
 
 `main` ブランチへの push で GitHub Actions が自動実行されます。

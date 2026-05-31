@@ -1,0 +1,142 @@
+---
+/**
+ * Products (English) — 英語版の商品一覧
+ */
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { products, formatPrice, categoryLabels } from '../../data/products';
+import { localizedPath } from '../../i18n/ui';
+
+/** カテゴリの英語ラベル */
+const categoryLabelsEn: Record<string, string> = {
+  blend: 'Blend',
+  'single-origin': 'Single Origin',
+  decaf: 'Decaf',
+};
+
+const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/products/*.*', { eager: true });
+/** 商品ファイル名から最適化済み画像メタデータを引く */
+function imageFor(file: string): ImageMetadata | null {
+  const key = Object.keys(images).find((k) => k.includes(file));
+  return key ? images[key].default : null;
+}
+// categoryLabels は ja ラベル参照のため未使用だが import の整合用に保持
+void categoryLabels;
+---
+
+<Layout title="Products" description="KURO COFFEE products — single-origin beans and signature blends.">
+  <section class="enp-section">
+    <div class="enp-inner">
+      <h1 class="enp-title">Products</h1>
+      <p class="enp-lead">Single-origin beans and signature blends.</p>
+
+      <ul class="enp-grid">
+        {products.map((product) => {
+          const img = imageFor(product.image);
+          return (
+            <li class="enp-card">
+              {img && (
+                <Image src={img} alt={`${product.nameEn} package`} width={300} height={400} class="enp-card-img" />
+              )}
+              <p class="enp-cat">{categoryLabelsEn[product.category]}</p>
+              <h2 class="enp-card-title">{product.nameEn}</h2>
+              <p class="enp-card-price">{formatPrice(product.price)}</p>
+            </li>
+          );
+        })}
+      </ul>
+
+      <p class="enp-back">
+        <a href={localizedPath('/', 'en')} class="enp-link">← Back to home</a>
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .enp-section {
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-section);
+  }
+
+  .enp-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .enp-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
+    color: var(--color-accent);
+    text-align: center;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-xs);
+  }
+
+  .enp-lead {
+    text-align: center;
+    color: var(--color-text-sub);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  .enp-grid {
+    list-style: none;
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .enp-card {
+    background: var(--color-bg-sub);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: var(--space-md);
+  }
+
+  .enp-card-img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .enp-cat {
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .enp-card-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
+    margin: var(--space-xs) 0;
+  }
+
+  .enp-card-price {
+    color: var(--color-accent);
+  }
+
+  .enp-link {
+    color: var(--color-accent);
+  }
+
+  .enp-link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  @media (min-width: 600px) {
+    .enp-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .enp-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

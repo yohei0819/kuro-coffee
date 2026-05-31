@@ -1,0 +1,208 @@
+---
+/**
+ * Home (English) — KURO COFFEE の英語版ランディングページ
+ */
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { products, formatPrice } from '../../data/products';
+import { localizedPath } from '../../i18n/ui';
+import storyImage from '../../assets/story.webp';
+
+/** トップに表示する商品3点 */
+const highlights = products.slice(0, 3);
+
+const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/products/*.*', { eager: true });
+/** 商品ファイル名から最適化済み画像メタデータを引く */
+function imageFor(file: string): ImageMetadata | null {
+  const key = Object.keys(images).find((k) => k.includes(file));
+  return key ? images[key].default : null;
+}
+---
+
+<Layout title="Home" description="KURO COFFEE — A cup, a deeper moment. Carefully roasted specialty coffee.">
+  <section class="en-hero">
+    <div class="en-hero-inner">
+      <p class="en-eyebrow">KURO COFFEE</p>
+      <h1 class="en-title">A cup. A deeper moment.</h1>
+      <p class="en-lead">
+        Single-origin beans and signature blends, roasted in-house and delivered with care.
+      </p>
+      <a href={localizedPath('/products', 'en')} class="en-cta">View products →</a>
+    </div>
+  </section>
+
+  <section class="en-story">
+    <div class="en-story-inner">
+      <div class="en-story-text">
+        <h2 class="en-h2">Our Story</h2>
+        <p>
+          Since 2018, KURO COFFEE has pursued one idea: a genuinely good cup that fits into
+          everyday life. From sourcing to roasting, we manage every step ourselves to bring out
+          the true character of each bean.
+        </p>
+        <a href={localizedPath('/about', 'en')} class="en-link" lang="en">More about us →</a>
+      </div>
+      <div class="en-story-image">
+        <Image src={storyImage} alt="Freshly roasted coffee beans" width={520} height={520} class="en-img" />
+      </div>
+    </div>
+  </section>
+
+  <section class="en-products">
+    <div class="en-products-inner">
+      <h2 class="en-h2 en-center">Featured</h2>
+      <ul class="en-grid">
+        {highlights.map((product) => {
+          const img = imageFor(product.image);
+          return (
+            <li class="en-card">
+              {img && (
+                <Image src={img} alt={`${product.nameEn} package`} width={300} height={400} class="en-card-img" />
+              )}
+              <h3 class="en-card-title">{product.nameEn}</h3>
+              <p class="en-card-price">{formatPrice(product.price)}</p>
+            </li>
+          );
+        })}
+      </ul>
+      <div class="en-center">
+        <a href={localizedPath('/products', 'en')} class="en-cta">See all products →</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .en-hero {
+    min-height: 70svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-lg);
+  }
+
+  .en-eyebrow {
+    color: var(--color-accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-sm);
+  }
+
+  .en-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-hero);
+    color: var(--color-text);
+    line-height: 1.1;
+    margin-bottom: var(--space-md);
+  }
+
+  .en-lead {
+    color: var(--color-text-sub);
+    font-size: var(--font-size-lg);
+    max-width: 36rem;
+    margin: 0 auto var(--space-md);
+  }
+
+  .en-cta,
+  .en-link {
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+    transition: color var(--transition-fast);
+  }
+
+  .en-cta:hover,
+  .en-link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .en-story,
+  .en-products {
+    padding: var(--space-section) var(--space-md);
+  }
+
+  .en-story-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .en-h2 {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    color: var(--color-accent);
+    margin-bottom: var(--space-md);
+  }
+
+  .en-story-text p {
+    color: var(--color-text-sub);
+    line-height: 1.9;
+    margin-bottom: var(--space-md);
+  }
+
+  .en-img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  .en-products-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .en-center {
+    text-align: center;
+  }
+
+  .en-grid {
+    list-style: none;
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .en-card {
+    background: var(--color-bg-sub);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: var(--space-md);
+    text-align: center;
+  }
+
+  .en-card-img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .en-card-title {
+    font-family: var(--font-heading);
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .en-card-price {
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 900px) {
+    .en-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .en-story-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>

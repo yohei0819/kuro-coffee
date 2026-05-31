@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yohei0819.github.io/kuro-coffee/sitemap-index.xml

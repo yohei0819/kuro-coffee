@@ -1,0 +1,232 @@
+---
+/**
+ * About (English) — KURO COFFEE のブランドストーリー・歴史・焙煎士（英語版）
+ */
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { localizedPath } from '../../i18n/ui';
+import roasterImage from '../../assets/roaster.webp';
+
+/** ブランドの歩み（英語） */
+const timeline = [
+  {
+    year: '2018',
+    title: 'Founded',
+    desc: 'KURO COFFEE was born in a small room in Kuramae, Tokyo, driven by the wish to deliver a genuinely good cup that fits into everyday life.',
+  },
+  {
+    year: '2020',
+    title: 'In-house roastery opens',
+    desc: 'To deepen our pursuit of quality, we established our own roastery, managing everything from sourcing to roasting in-house.',
+  },
+  {
+    year: '2022',
+    title: 'Online store launches',
+    desc: 'We opened an online store to deliver freshly roasted coffee to customers across the country.',
+  },
+  {
+    year: '2024',
+    title: 'First flagship store',
+    desc: 'Our first directly managed store opened in Meguro, Tokyo — a space wrapped in the aroma of coffee.',
+  },
+];
+---
+
+<Layout title="About" description="The journey of KURO COFFEE and our head roaster.">
+  <section class="about-hero">
+    <div class="about-hero-inner">
+      <h1 class="about-title">About KURO COFFEE</h1>
+      <p class="about-lead">The story behind a single cup, and the path we have walked.</p>
+    </div>
+  </section>
+
+  <section class="history">
+    <div class="history-inner">
+      <h2 class="section-title">History</h2>
+      <ol class="timeline" aria-label="History of KURO COFFEE">
+        {timeline.map((item) => (
+          <li class="timeline-item">
+            <time datetime={item.year} class="timeline-year">{item.year}</time>
+            <div class="timeline-content">
+              <h3 class="timeline-title">{item.title}</h3>
+              <p class="timeline-desc">{item.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="roaster">
+    <div class="roaster-inner">
+      <h2 class="section-title">Roaster</h2>
+      <div class="roaster-grid">
+        <div class="roaster-image">
+          <Image
+            src={roasterImage}
+            alt="Head roaster Yusuke Kuroda sorting coffee beans"
+            width={400}
+            height={400}
+            class="roaster-portrait"
+          />
+        </div>
+        <div class="roaster-profile">
+          <h3 class="roaster-name">Yusuke Kuroda</h3>
+          <p class="roaster-role">Head Roaster / Founder</p>
+          <p class="roaster-bio">
+            After graduating, Yusuke trained for eight years at a specialty coffee shop in Tokyo.
+            Through more than 30 visits to origin each year, he has built trusting relationships with farms.
+          </p>
+          <p class="roaster-bio">
+            He founded KURO COFFEE in 2018. With the motto "listen to the beans," he continues to
+            explore the ideal roast profile for each and every lot.
+          </p>
+          <p class="roaster-bio">
+            Runner-up, Japan Roasting Championship 2023. SCA Certified Q Grader.
+          </p>
+        </div>
+      </div>
+      <p class="about-back">
+        <a href={localizedPath('/products', 'en')} class="about-link">View our products →</a>
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initGSAP, staggerFadeIn, fadeInUp } from '../../utils/animation';
+
+  /** About（英語）のGSAPアニメーションを初期化する */
+  function initAbout(): void {
+    if (!document.querySelector('.timeline-item')) return;
+    initGSAP();
+    staggerFadeIn('.timeline-item', { stagger: 0.2 });
+    fadeInUp('.roaster-grid');
+  }
+
+  initAbout();
+  document.addEventListener('astro:after-swap', initAbout);
+</script>
+
+<style>
+  .about-hero {
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-lg);
+    text-align: center;
+  }
+
+  .about-hero-inner,
+  .history-inner,
+  .roaster-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .about-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-xs);
+  }
+
+  .about-lead {
+    color: var(--color-text-sub);
+    font-size: var(--font-size-lg);
+  }
+
+  .history,
+  .roaster {
+    padding: var(--space-section) var(--space-md);
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    color: var(--color-accent);
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .timeline-year {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
+    color: var(--color-accent);
+  }
+
+  .timeline-title {
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .timeline-desc {
+    color: var(--color-text-sub);
+    line-height: 1.9;
+  }
+
+  .roaster-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .roaster-portrait {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  .roaster-name {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
+  }
+
+  .roaster-role {
+    color: var(--color-accent);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .roaster-bio {
+    color: var(--color-text-sub);
+    line-height: 1.9;
+    margin-bottom: var(--space-sm);
+  }
+
+  .about-back {
+    margin-top: var(--space-lg);
+    text-align: center;
+  }
+
+  .about-link {
+    color: var(--color-accent);
+  }
+
+  .about-link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  @media (max-width: 768px) {
+    .roaster-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>

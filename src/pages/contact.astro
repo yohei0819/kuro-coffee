@@ -83,8 +83,8 @@ import Button from '../components/common/Button.astro';
    * フォーム送信処理の初期化
    */
   function initContactForm(): void {
-    const FORMSPREE_URL = 'https://formspree.io/f/xxxxx';
-    const isConfigured = !FORMSPREE_URL.includes('xxxxx');
+    const FORMSPREE_URL = import.meta.env.PUBLIC_FORMSPREE_URL ?? '';
+    const isConfigured = FORMSPREE_URL.length > 0 && !FORMSPREE_URL.includes('xxxxx');
 
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const successEl = document.getElementById('form-success');

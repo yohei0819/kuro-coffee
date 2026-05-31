@@ -4,7 +4,7 @@
  */
 import Layout from '../../layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import { products, categoryLabels } from '../../data/products';
+import { products, categoryLabels, formatPrice } from '../../data/products';
 import { getBasePath } from '../../utils/path';
 import Button from '../../components/common/Button.astro';
 
@@ -20,9 +20,29 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 );
 const imagePath = Object.keys(images).find((key) => key.includes(product.image));
 const imageData = imagePath ? images[imagePath].default : null;
+
+/** 商品ページの構造化データ（schema.org Product） */
+const productJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.name,
+  alternateName: product.nameEn,
+  description: product.description,
+  category: categoryLabels[product.category],
+  brand: { '@type': 'Brand', name: 'KURO COFFEE' },
+  image: imageData ? new URL(imageData.src, Astro.site).href : undefined,
+  offers: {
+    '@type': 'Offer',
+    price: product.price,
+    priceCurrency: 'JPY',
+    availability: 'https://schema.org/InStock',
+    url: new URL(Astro.url.pathname, Astro.site).href,
+  },
+};
 ---
 
 <Layout title={product.name} description={`${product.name} — ${product.description}`}>
+  <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
   <section class="detail-hero">
     <div class="detail-inner">
       <div class="detail-image-col">
@@ -45,7 +65,7 @@ const imageData = imagePath ? images[imagePath].default : null;
         <p class="detail-category">{categoryLabels[product.category]}</p>
         <h1 class="detail-name">{product.name}</h1>
         <p class="detail-name-en">{product.nameEn}</p>
-        <p class="detail-price">&yen;{product.price.toLocaleString()}</p>
+        <p class="detail-price">{formatPrice(product.price)}</p>
         <p class="detail-description">{product.description}</p>
 
         <h2 class="detail-sub-heading">味わいの特徴</h2>

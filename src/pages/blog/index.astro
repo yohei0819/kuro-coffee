@@ -1,0 +1,156 @@
+---
+/**
+ * ブログ一覧ページ — ジャーナル記事の一覧を表示
+ */
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getBasePath } from '../../utils/path';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => post.data.lang === 'ja')
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+/** 日付を「2026年5月20日」形式に整形する */
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title="Blog" description="KURO COFFEEのジャーナル。コーヒーの淹れ方や豆のこと、日々のコラムをお届けします。">
+  <section class="blog-hero">
+    <div class="blog-hero-inner">
+      <h1 class="blog-title">Journal</h1>
+      <p class="blog-lead">コーヒーの淹れ方や豆のこと、日々のコラムをお届けします。</p>
+    </div>
+  </section>
+
+  <section class="blog-list-section">
+    <div class="blog-list-inner">
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li class="post-item">
+            <a href={getBasePath(`/blog/${post.id}`)} class="post-card">
+              <p class="post-meta">
+                <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+                <span class="post-category">{post.data.category}</span>
+              </p>
+              <h2 class="post-card-title">{post.data.title}</h2>
+              <p class="post-card-desc">{post.data.description}</p>
+              <span class="post-readmore">続きを読む →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initGSAP, staggerFadeIn } from '../../utils/animation';
+
+  /** ブログ一覧のGSAPアニメーションを初期化する */
+  function initBlogList(): void {
+    if (!document.querySelector('.post-item')) return;
+    initGSAP();
+    staggerFadeIn('.post-item', { stagger: 0.12 });
+  }
+
+  initBlogList();
+  document.addEventListener('astro:after-swap', initBlogList);
+</script>
+
+<style>
+  .blog-hero {
+    padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-lg);
+    text-align: center;
+  }
+
+  .blog-hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .blog-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-3xl);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-xs);
+  }
+
+  .blog-lead {
+    color: var(--color-text-sub);
+    font-size: var(--font-size-lg);
+  }
+
+  .blog-list-section {
+    padding: 0 var(--space-md) var(--space-section);
+  }
+
+  .blog-list-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .post-card {
+    display: block;
+    padding: var(--space-md);
+    background: var(--color-bg-sub);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    transition: border-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .post-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .post-card:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-sub);
+    margin-bottom: var(--space-xs);
+  }
+
+  .post-category {
+    color: var(--color-accent);
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    padding: 0.1rem 0.6rem;
+  }
+
+  .post-card-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .post-card-desc {
+    color: var(--color-text-sub);
+    line-height: 1.8;
+    margin-bottom: var(--space-sm);
+  }
+
+  .post-readmore {
+    color: var(--color-accent);
+    font-size: var(--font-size-sm);
+  }
+</style>

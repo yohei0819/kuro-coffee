@@ -2,6 +2,7 @@
  * ProductCard — 商品カードコンポーネント（3D傾斜エフェクト + 光沢付き）
  */
 import type { Product } from '../../data/products';
+import { formatPrice } from '../../data/products';
 import { getReducedMotion } from '../../utils/a11y';
 import styles from './ProductCard.module.css';
 
@@ -60,7 +61,7 @@ export default function ProductCard({ product, imageSrc, detailHref }: ProductCa
       <div className={styles.body}>
         <h3 className={styles.name}>{product.name}</h3>
         <p className={styles.nameEn}>{product.nameEn}</p>
-        <p className={styles.price}>&yen;{product.price.toLocaleString()}</p>
+        <p className={styles.price}>{formatPrice(product.price)}</p>
         <p className={styles.description}>{product.description}</p>
         {detailHref && (
           <a href={detailHref} className={styles.detailLink}>詳細を見る →</a>
